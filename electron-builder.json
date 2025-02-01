@@ -1,0 +1,16 @@
+{
+  "appId": "com.alefsandler-felisberto.studioa-agendamento",
+  "files": ["dist-electron", "dist-react"],
+  "extraResources": ["dist-electron/preload.cjs"],
+  "icon": "./public/delfos.jpg",
+  "mac": {
+    "target": "dmg"
+  },
+  "linux": {
+    "target": "AppImage",
+    "category": "Utility"
+  },
+  "win": {
+    "target": ["portable", "msi"]
+  }
+}
