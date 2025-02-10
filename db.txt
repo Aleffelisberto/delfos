@@ -1,0 +1,54 @@
+CRIAR MIGRATIONS
+
+npx knex --knexfile=src/app/api/db/knexfile.ts migrate:make create_tables --require ts-node/register
+
+npx knex --knexfile=src/app/api/db/knexfile.ts migrate:latest
+
+
+MODELAGEM BANCO DE DADOS STUDIO A AGENDAMENTOS
+
+Customers {
+	id			int
+	name		string
+	phone_1		string
+	phone_2 	string
+	birth_date	date
+}
+
+Service {
+	id		int
+	name	string
+	price	int
+}
+
+CustomerService {
+	id				int
+	customer_id		int
+	service_id		int
+	scheduled_at		date
+	price			int
+	sale_id			int
+}
+
+CustomerProducts {
+	id			int
+	product_id	int
+	customer_id	int
+	sale_id		int
+}
+
+Sales {
+	id 			int
+	customer_id	int
+	Products
+	Services
+	price		int
+}
+
+Products {
+	id			int
+	name		string
+	amount		int
+	min_amount	int
+}
+

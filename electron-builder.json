@@ -3,6 +3,12 @@
   "files": ["dist-electron", "dist-react"],
   "extraResources": ["dist-electron/preload.cjs"],
   "icon": "./public/delfos.jpg",
+  "extraFiles": [
+    {
+      "from": "src/app/api/db/database.sqlite",
+      "to": "database.sqlite"
+    }
+  ],
   "mac": {
     "target": "dmg"
   },
