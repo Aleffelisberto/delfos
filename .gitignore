@@ -24,4 +24,7 @@ tsconfig.node.tsbuildinfo
 *.sln
 *.sw?
 
+# Database
+*.sqlite
+
 .env

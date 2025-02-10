@@ -15,3 +15,25 @@ Gerenciador de clientes e serviços voltado para salões de beleza. Sistema est�
 1. Clone o repositório
 2. Instale as dependências com `npm install`
 3. Rode o projeto com `npm run dev`
+
+## Migrations
+
+### Criando migration
+
+```bash
+npx knex --knexfile=src/app/api/db/knexfile.ts migrate:make [migration_name]
+```
+
+### Rodando migrations
+
+```bash
+npx knex --knexfile=src/app/api/db/knexfile.ts migrate:latest
+```
+
+## UI
+
+### Adicionando novo componente shadcn
+
+```bash
+npx shadcn@latest add button
+```
