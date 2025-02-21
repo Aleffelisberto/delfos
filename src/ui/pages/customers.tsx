@@ -1,73 +1,114 @@
-import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Table } from "lucide-react";
-
-type ICustomer = {
-  id: number;
-  name: string;
-  phone1: string;
-  phone2?: string;
-  birthDay: string;
-};
-
-const customers: ICustomer[] = [
-  {
-    id: 1,
-    name: "Monique da Silva",
-    phone1: "11 9999-9999",
-    birthDay: "01/01",
-  },
-  {
-    id: 2,
-    name: "Barbinha",
-    phone1: "27 9999-9999",
-    phone2: "27 9999-9999",
-    birthDay: "13/12",
-  },
-  {
-    id: 3,
-    name: "Roberta Guimarães",
-    phone1: "27 9999-9999",
-    birthDay: "12/10",
-  },
-  {
-    id: 4,
-    name: "Maria da Silva",
-    phone1: "27 9999-9999",
-    birthDay: "12/10",
-  },
-  {
-    id: 5,
-    name: "Gagaça",
-    phone1: "27 9999-9999",
-    birthDay: "12/10",
-  },
-  {
-    id: 6,
-    name: "Mariana Souza",
-    phone1: "27 9999-9999",
-    birthDay: "12/10",
-  },
-];
+import {
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+  Table,
+  TableHead,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogFooter,
+  DialogHeader,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Calendar, PlusCircle, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { getCustomers } from "@/services/customers-service";
+import { ICustomer } from "@/models/customer";
 
 export function Customers() {
+  const [customers, setCustomers] = useState([] as ICustomer[]);
+
+  useEffect(() => {
+    getCustomers().then((res) => setCustomers(res));
+  }, []);
+
+  const customerItems: Record<string, string>[] = [
+    { name: "Nome" },
+    { whatsapp: "Whatsapp" },
+    { phone: "Telefone" },
+    { instagram: "Instagram" },
+    { birthDate: "Data de Nascimento" },
+  ];
+
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <div className="border rounded">
+    <div className="p-6 max-w-4xl mx-auto space-y-10 my-10">
+      <h1 className="text-4xl font-bold flex flex-items">
+        <Calendar className="w-8 h-8 mr-2" />
+        <span>Clientes</span>
+      </h1>
+      <div className="flex items-center justify-between gap-2">
+        <form className="flex items-center gap-2">
+          <Input name="name" placeholder="Nome da cliente" />
+          <Button type="submit" variant="secondary">
+            <Search className="w-4 h-4 mr-2" />
+            Filtrar resultados
+          </Button>
+        </form>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button className="bg-pink-200 hover:bg-pink-300">
+              <PlusCircle className="w-4 h-4 mr-2" />
+              Nova cliente
+            </Button>
+          </DialogTrigger>
+
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Adicionar nova cliente</DialogTitle>
+              <DialogDescription>Criar uma nova cliente no sistema</DialogDescription>
+            </DialogHeader>
+
+            <form className="space-y-6" action="">
+              {customerItems.map((item) => {
+                const key = Object.keys(item)[0];
+                const value = Object.values(item)[0];
+                return (
+                  <div className="grid grid-cols-4 items-center text-right gap-3">
+                    <Label htmlFor={key}>{value}</Label>
+                    <Input className="col-span-3" name={key} />
+                  </div>
+                );
+              })}
+              <DialogFooter>
+                <DialogTrigger asChild>
+                  <Button type="button" variant="outline">
+                    Cancelar
+                  </Button>
+                </DialogTrigger>
+                <Button type="submit">Salvar</Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
+      <div className="border rounded-lg p-2">
         <Table>
           <TableHeader>
-            <TableHead>Nome</TableHead>
-            <TableHead>Telefone 1</TableHead>
-            <TableHead>Telefone 2</TableHead>
-            <TableHead>Aniversário</TableHead>
+            <TableRow>
+              <TableHead className="w-[250px]">Nome</TableHead>
+              <TableHead className="w-[200px]">Whatsapp</TableHead>
+              <TableHead className="w-[200px]">Telefone</TableHead>
+              <TableHead className="w-[200px]">Instagram</TableHead>
+              <TableHead className="w-[200px]">Aniversário</TableHead>
+            </TableRow>
           </TableHeader>
           <TableBody>
             {customers.map((customer) => {
               return (
                 <TableRow key={customer.id}>
-                  <TableCell>{customer.name}</TableCell>
-                  <TableCell>{customer.phone1}</TableCell>
-                  <TableCell>{customer.phone2}</TableCell>
-                  <TableCell>{customer.birthDay}</TableCell>
+                  <TableCell className="font-medium">{customer.name}</TableCell>
+                  <TableCell>{customer.whatsapp}</TableCell>
+                  <TableCell>{customer.phone}</TableCell>
+                  <TableCell>{customer.instagram}</TableCell>
+                  <TableCell>{customer.birthDate}</TableCell>
                 </TableRow>
               );
             })}

@@ -1,5 +1,4 @@
 import { Armchair, Barcode, Calendar, DollarSign, NotebookTabs } from "lucide-react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -11,50 +10,38 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Link, useLocation } from "react-router-dom";
 
 const items = [
-  {
-    title: "Agenda",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Clientes",
-    url: "#",
-    icon: NotebookTabs,
-  },
-  {
-    title: "Produtos",
-    url: "#",
-    icon: Barcode,
-  },
-  {
-    title: "Serviços",
-    url: "#",
-    icon: Armchair,
-  },
-  {
-    title: "Financeiro",
-    url: "#",
-    icon: DollarSign,
-  },
+  { title: "Agenda", url: "/", icon: Calendar },
+  { title: "Clientes", url: "/customers", icon: NotebookTabs },
+  { title: "Produtos", url: "/products", icon: Barcode },
+  { title: "Serviços", url: "/services", icon: Armchair },
+  { title: "Financeiro", url: "/financial", icon: DollarSign },
 ];
 
 export function AppSidebar() {
+  const location = useLocation();
+
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Studio A</SidebarGroupLabel>
+          <SidebarGroupLabel className="gap-1">
+            Studio <span className="text-rose-900">A</span>
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="py-2">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={location.pathname === item.url ? true : false}
+                  >
+                    <Link to={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
