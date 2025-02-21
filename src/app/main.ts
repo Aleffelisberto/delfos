@@ -11,15 +11,17 @@ app.on("ready", () => {
       preload: getPreloadPath(),
     },
     title: "Studio A - Gestão de Salão de Beleza",
-    darkTheme: true,
-    width: 1920,
-    height: 1080,
+    darkTheme: false,
+    width: 1024,
+    height: 768,
   });
   if (isDev()) {
     mainWindow.loadURL("http://localhost:5123");
   } else {
     mainWindow.loadFile(path.join(app.getAppPath() + "/dist-react/index.html"));
   }
+
+  mainWindow.setMenu(null);
 
   ipcMainHandle("getAllCustomers", async () => {
     const customers = await CustomerController.getAllCustomers();
